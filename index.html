@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RobotProgrammingIDE</title>
+    <!-- Include Blockly library -->
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="https://unpkg.com/hammerjs/hammer.min.js"></script>
+    <script src="https://unpkg.com/blockly/blockly-touch.js"></script> <!-- Include Blockly touch library -->
+    <script src="https://unpkg.com/blockly/python_compressed.js"></script> <!-- Include Blockly Python generator -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Disable scrolling */
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #blocklyDiv {
+            height: 80vh;
+            width: 100%;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            #blocklyDiv {
+                height: 60vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>RobotProgrammingIDE</h1>
+    <div id="blocklyDiv"></div>
+    <button onclick="exportPythonCode()">Export Python Code</button>
+
+    <!-- Include your JavaScript file -->
+    <script src="script.js"></script>
+
+    <script>
+       
+    </script>
+</body>
+</html>
