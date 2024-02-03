@@ -3,6 +3,34 @@ function runCode() {
     // Your code to run the generated Python code goes here
     console.log("Running Python Code...");
 }
+// Function to be called when the "Export Arduino Code" button is clicked
+function exportArduinoCode() {
+    // Generate Arduino code from Blockly workspace
+    var code = generateArduinoCode();
+
+    // Open a new window to display the code
+    var codeWindow = window.open('', '_blank');
+    codeWindow.document.write('<pre>' + code + '</pre>');
+}
+
+// Function to generate Arduino code from Blockly workspace
+function generateArduinoCode() {
+    // Generate Arduino code from Blockly workspace
+    var arduinoCode = '';
+
+    // Iterate through all blocks in the workspace
+    var blocks = workspace.getAllBlocks();
+    blocks.forEach(function (block) {
+        // Check if the block has a corresponding Arduino code generator
+        if (Blockly.Python[block.type]) {
+            // Generate Arduino code for the block and append it to the overall code
+            arduinoCode += Blockly.Python[block.type](block) + '\n';
+        }
+    });
+
+    return arduinoCode;
+}
+
 
 
 // Function to be called when the "Export Python Code" button is clicked
@@ -17,31 +45,98 @@ function exportPythonCode() {
     runCode(); // Call the runCode function after exporting Python code
 }
 
-// Define the custom "Move Motors" block
-Blockly.Blocks['move_motors'] = {
+// Define the custom "Move Forward" block
+Blockly.Blocks['move_forward'] = {
     init: function () {
         this.appendDummyInput()
-            .appendField("Move Motors")
-            .appendField("Left Motor:")
-            .appendField(new Blockly.FieldNumber(0, -100, 100), "left_motor_speed")
-            .appendField("%, Right Motor:")
-            .appendField(new Blockly.FieldNumber(0, -100, 100), "right_motor_speed")
-            .appendField("%");
+            .appendField("Move Forward")
+            .appendField("Duration:")
+            .appendField(new Blockly.FieldNumber(3000), "duration")
+            .appendField("ms");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(230);
-        this.setTooltip("Move motors with specified speeds.");
+        this.setTooltip("Move forward for a specified duration.");
         this.setHelpUrl("");
     }
 };
 
-// Define the Python code generator for the "Move Motors" block
-Blockly.Python['move_motors'] = function (block) {
-    var leftMotorSpeed = block.getFieldValue('left_motor_speed');
-    var rightMotorSpeed = block.getFieldValue('right_motor_speed');
-    var code = 'move_motors(' + leftMotorSpeed + ', ' + rightMotorSpeed + ')\n';
+// Define the Python code generator for the "Move Forward" block
+Blockly.Python['move_forward'] = function (block) {
+    var duration = block.getFieldValue('duration');
+    var code = 'moveForward(' + duration + ');\n';
     return code;
 };
+
+// Define the custom "Move Backward" block
+Blockly.Blocks['move_backward'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Move Backward")
+            .appendField("Duration:")
+            .appendField(new Blockly.FieldNumber(3000), "duration")
+            .appendField("ms");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip("Move backward for a specified duration.");
+        this.setHelpUrl("");
+    }
+};
+
+// Define the Python code generator for the "Move Backward" block
+Blockly.Python['move_backward'] = function (block) {
+    var duration = block.getFieldValue('duration');
+    var code = 'moveBackward(' + duration + ');\n';
+    return code;
+};
+
+// Define the custom "Turn Left" block
+Blockly.Blocks['turn_left'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Turn Left")
+            .appendField("Duration:")
+            .appendField(new Blockly.FieldNumber(2000), "duration")
+            .appendField("ms");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip("Turn left for a specified duration.");
+        this.setHelpUrl("");
+    }
+};
+
+// Define the Python code generator for the "Turn Left" block
+Blockly.Python['turn_left'] = function (block) {
+    var duration = block.getFieldValue('duration');
+    var code = 'turnLeft(' + duration + ');\n';
+    return code;
+};
+
+// Define the custom "Turn Right" block
+Blockly.Blocks['turn_right'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Turn Right")
+            .appendField("Duration:")
+            .appendField(new Blockly.FieldNumber(2000), "duration")
+            .appendField("ms");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip("Turn right for a specified duration.");
+        this.setHelpUrl("");
+    }
+};
+
+// Define the Python code generator for the "Turn Right" block
+Blockly.Python['turn_right'] = function (block) {
+    var duration = block.getFieldValue('duration');
+    var code = 'turnRight(' + duration + ');\n';
+    return code;
+};
+
 
 
 Blockly.Blocks['controls_simple_for'] = {
@@ -74,7 +169,10 @@ var workspace = Blockly.inject('blocklyDiv', {
         '<category name="Control">' +
         '<block type="controls_if"></block>' +
         '<block type="controls_whileUntil"></block>' +
-        '<block type="move_motors"></block>' +
+        '<block type="move_forward"></block>' +
+        '<block type="move_backward"></block>' +
+        '<block type="turn_left"></block>' +
+        '<block type="turn_right"></block>' +
         '</category>' +
         '<category name="Math">' +
         '<block type="math_number"></block>' +
